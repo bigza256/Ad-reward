@@ -72,7 +72,28 @@
         .points-badge i {
             font-size: 1.4rem;
         }
+/* NAVIGATION */
 
+nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    background: #f7b731;
+    color: #0b1c3a;
+}
         /* MAIN LAYOUT */
         .main-panel {
             display: flex;
@@ -414,6 +435,9 @@
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="rewards.html">Rewards</a>
+    <a href="profile.html">Profile</a>
+    <a href="history.html">History</a>
+    <a href="dashboard.html">Dashboard</a>
 </nav>
             <div class="points-badge" id="pointsDisplay">
                 <i class="fas fa-coins"></i>
@@ -425,6 +449,31 @@
         <div class="main-panel">
             <!-- LEFT: AD LIST -->
             <section class="ads-section">
+              <div id="videoBox" style="
+    display: none;
+    margin-bottom: 20px;
+    background: #0b1c3a;
+    padding: 15px;
+    border-radius: 20px;
+    color: white;
+">
+
+    <h3 id="watchingTitle" style="margin-bottom: 10px;">
+        Watching advertisement
+    </h3>
+
+    <video id="adVideo" controls style="
+        width: 100%;
+        border-radius: 15px;
+    "></video>
+
+    <p id="videoStatus" style="
+        margin-top: 10px;
+        font-size: 14px;
+    ">
+        Watch the video to earn your points.
+    </p>
+</div>
                 <div class="section-title">
                     <i class="fas fa-play-circle" style="color: #f7b731;"></i> Watch & earn
                 </div>
@@ -471,10 +520,12 @@
                         <div class="ad-action">
                             <span class="reward-tag"><i class="fas fa-gift"></i> +12 pts</span>
                             <button class="btn-watch" onclick="watchAd(event, this)"><i class="fas fa-play"></i> Watch</button>
+                       
                         </div>
                     </div>
                 </div>
                 <div style="font-size: 0.8rem; color: #8ba0c0; margin-top: 1rem;">
+                  <div id="adminAds"></div>
                     <i class="fas fa-info-circle"></i> Click on any advert to see product details & place order.
                 </div>
             </section>
@@ -519,7 +570,7 @@
 
     <script>
         // --- STATE ---
-        let userPoints = 0;
+        let userPoints = Number(localStorage.getItem('userPoints')) || 0;
         let currentProduct = null; // { name, price, delivery }
 
         // DOM elements
@@ -528,6 +579,10 @@
         const productContent = document.getElementById('productContent');
         const botMessage = document.getElementById('botMessage');
         const toastEl = document.getElementById('toast');
+      const videoBox = document.getElementById('videoBox');
+const adVideo = document.getElementById('adVideo');
+const watchingTitle = document.getElementById('watchingTitle');
+const videoStatus = document.getElementById('videoStatus');
 
         // --- UTILS ---
         function showToast(message, duration = 2000) {
@@ -569,9 +624,30 @@
 
             setTimeout(() => {
                 // add points
-                userPoints += reward;
-                updatePointsUI();
+userPoints += reward;
 
+// Save points in the browser
+localStorage.setItem('userPoints', userPoints);
+
+// Update the display
+updatePointsUI();
+              // Save reward history
+
+const history =
+    JSON.parse(
+        localStorage.getItem('rewardHistory')
+    ) || [];
+
+history.push({
+    ad: adCard.querySelector('.ad-text h3').textContent,
+    points: reward,
+    time: new Date().toLocaleString()
+});
+
+localStorage.setItem(
+    'rewardHistory',
+    JSON.stringify(history)
+);
                 // reset button
                 buttonElement.disabled = false;
                 buttonElement.innerHTML = '<i class="fas fa-play"></i> Watch';
@@ -697,6 +773,45 @@
                 botMessage.textContent = '👋 Tap an advert to see product details, or ask me about delivery & points!';
             }
         }, 2000);
+      // Load saved points
+const adminAds = document.getElementById('adminAds');
+
+const savedAds =
+    JSON.parse(localStorage.getItem('ads')) || [];
+
+savedAds.forEach(function(ad) {
+
+    const card = document.createElement('div');
+
+    card.className = 'ad-card';
+
+    card.innerHTML = `
+        <div class="ad-info">
+            <div class="ad-icon">
+                <i class="fas fa-video"></i>
+            </div>
+
+            <div class="ad-text">
+                <h3>${ad.title}</h3>
+                <p>${ad.description}</p>
+            </div>
+        </div>
+
+        <div class="ad-action">
+            <span class="reward-tag">
+                <i class="fas fa-gift"></i>
+                +${ad.reward} pts
+            </span>
+
+            <button class="btn-watch">
+                <i class="fas fa-play"></i>
+                Watch
+            </button>
+        </div>
+    `;
+
+    adminAds.appendChild(card);
+});
     </script>
 </body>
 </html>
