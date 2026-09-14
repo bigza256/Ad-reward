@@ -1,0 +1,445 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard · AdRewards</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        padding: 20px;
+        background: #f4f7fc;
+    }
+
+    .dashboard {
+        max-width: 900px;
+        margin: 30px auto;
+    }
+
+    /* HEADER */
+
+    .welcome {
+        background: linear-gradient(
+            135deg,
+            #0b1c3a,
+            #1b3a6b
+        );
+
+        color: white;
+
+        padding: 25px;
+
+        border-radius: 20px;
+
+        margin-bottom: 20px;
+    }
+
+    .welcome h1 {
+        margin: 0;
+    }
+
+    .welcome p {
+        color: #dce6f5;
+    }
+
+    /* STAT CARDS */
+
+    .stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(180px, 1fr));
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 18px;
+
+        border: 1px solid #e2e9f2;
+
+        box-shadow:
+            0 5px 15px
+            rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-icon {
+        font-size: 1.8rem;
+    }
+
+    .stat-title {
+        color: #7a8faa;
+
+        margin-top: 10px;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+
+        font-weight: bold;
+
+        color: #0b1c3a;
+
+        margin-top: 5px;
+    }
+
+    /* ACTIVITY */
+
+    .activity {
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 18px;
+
+        border: 1px solid #e2e9f2;
+    }
+
+    .activity h2 {
+        color: #1b3a6b;
+    }
+
+    .activity-item {
+        padding: 12px 0;
+
+        border-bottom:
+            1px solid #edf1f6;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-item strong {
+        color: #1b3a6b;
+    }
+
+    .activity-points {
+        color: #f0a500;
+
+        font-weight: bold;
+    }
+
+    .activity-time {
+        color: #8ba0c0;
+
+        font-size: 0.8rem;
+
+        margin-top: 4px;
+    }
+
+    .empty {
+        color: #8ba0c0;
+
+        text-align: center;
+
+        padding: 20px;
+    }
+
+    /* NAVIGATION */
+
+    .navigation {
+        margin-top: 20px;
+
+        display: flex;
+
+        gap: 10px;
+
+        flex-wrap: wrap;
+    }
+
+    .navigation a {
+        text-decoration: none;
+
+        background: #1b3a6b;
+
+        color: white;
+
+        padding: 10px 16px;
+
+        border-radius: 25px;
+    }
+
+</style>
+
+</head><body><div class="dashboard"><!-- WELCOME -->
+
+<div class="welcome">
+
+    <h1>
+        Welcome, <span id="userName">
+            Guest
+        </span> 👋
+    </h1>
+
+    <p>
+        Here's an overview of your AdRewards activity.
+    </p>
+
+</div>
+
+
+<!-- STATISTICS -->
+
+<div class="stats">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ⭐
+        </div>
+
+        <div class="stat-title">
+            Total Points
+        </div>
+
+        <div
+            class="stat-value"
+            id="totalPoints">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🎬
+        </div>
+
+        <div class="stat-title">
+            Ads Watched
+        </div>
+
+        <div
+            class="stat-value"
+            id="adsWatched">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🎁
+        </div>
+
+        <div class="stat-title">
+            Rewards Earned
+        </div>
+
+        <div
+            class="stat-value"
+            id="rewardsEarned">
+            0
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ACTIVITY -->
+
+<div class="activity">
+
+    <h2>
+        Recent Activity
+    </h2>
+
+    <div id="activityList"></div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="navigation">
+
+    <a href="index.html">
+        🏠 Home
+    </a>
+
+    <a href="profile.html">
+        👤 Profile
+    </a>
+
+    <a href="history.html">
+        📜 History
+    </a>
+
+    <a href="rewards.html">
+        ⭐ Rewards
+    </a>
+
+</div>
+
+</div><script>
+
+
+/* =========================
+   GET SAVED USER INFORMATION
+   ========================= */
+
+
+const savedName =
+    localStorage.getItem('userName');
+
+
+const savedPoints =
+    Number(
+        localStorage.getItem('userPoints')
+    ) || 0;
+
+
+const history =
+    JSON.parse(
+        localStorage.getItem('rewardHistory')
+    ) || [];
+
+
+/* =========================
+   DISPLAY USER NAME
+   ========================= */
+
+
+if (savedName) {
+
+    document.getElementById(
+        'userName'
+    ).textContent = savedName;
+
+}
+
+
+/* =========================
+   DISPLAY TOTAL POINTS
+   ========================= */
+
+
+document.getElementById(
+    'totalPoints'
+).textContent = savedPoints;
+
+
+/* =========================
+   COUNT ADS WATCHED
+   ========================= */
+
+
+document.getElementById(
+    'adsWatched'
+).textContent = history.length;
+
+
+/* =========================
+   TOTAL REWARDS
+   ========================= */
+
+
+let totalRewards = 0;
+
+
+history.forEach(function(item) {
+
+    totalRewards += Number(item.points);
+
+});
+
+
+document.getElementById(
+    'rewardsEarned'
+).textContent = totalRewards;
+
+
+/* =========================
+   RECENT ACTIVITY
+   ========================= */
+
+
+const activityList =
+    document.getElementById(
+        'activityList'
+    );
+
+
+if (history.length === 0) {
+
+    activityList.innerHTML = `
+        <div class="empty">
+            No activity yet.
+        </div>
+    `;
+
+} else {
+
+
+    /*
+       Show newest activity first
+    */
+
+
+    const recentHistory =
+        [...history].reverse();
+
+
+    recentHistory
+        .slice(0, 5)
+        .forEach(function(item) {
+
+
+            const activity =
+                document.createElement(
+                    'div'
+                );
+
+
+            activity.className =
+                'activity-item';
+
+
+            activity.innerHTML = `
+
+                <strong>
+                    ${item.ad}
+                </strong>
+
+                <div class="activity-points">
+                    +${item.points} points
+                </div>
+
+                <div class="activity-time">
+                    ${item.time}
+                </div>
+
+            `;
+
+
+            activityList.appendChild(
+                activity
+            );
+
+        });
+
+}
+
+
+</script></body></html>

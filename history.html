@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>History · AdRewards</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        padding: 20px;
+        background: #f4f7fc;
+    }
+
+    .page {
+        max-width: 650px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+    }
+
+    h1 {
+        color: #1b3a6b;
+    }
+
+    .history-item {
+        background: #f9fbfe;
+        border: 1px solid #e2e9f2;
+        padding: 15px;
+        border-radius: 15px;
+        margin-top: 12px;
+    }
+
+    .history-item strong {
+        color: #1b3a6b;
+    }
+
+    .history-item small {
+        color: #7a8faa;
+    }
+
+    .points {
+        color: #f0a500;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .empty {
+        text-align: center;
+        color: #7a8faa;
+        padding: 30px;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        background: #1b3a6b;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+    }
+
+</style>
+
+</head><body><div class="page">
+
+    <h1>Reward History</h1>
+
+    <p>
+        Here you can see your previous rewards.
+    </p>
+
+    <div id="historyList"></div>
+
+    <a href="index.html">Back to Home</a>
+
+</div>
+
+
+<script>
+
+    const historyList =
+        document.getElementById('historyList');
+
+
+    // Get saved history
+
+    const history =
+        JSON.parse(
+            localStorage.getItem('rewardHistory')
+        ) || [];
+
+
+    if (history.length === 0) {
+
+        historyList.innerHTML = `
+            <div class="empty">
+                No reward history yet.
+            </div>
+        `;
+
+    } else {
+
+        history.forEach(function(item) {
+
+            const historyItem =
+                document.createElement('div');
+
+            historyItem.className =
+                'history-item';
+
+            historyItem.innerHTML = `
+                <strong>${item.ad}</strong>
+
+                <div class="points">
+                    +${item.points} points
+                </div>
+
+                <small>
+                    ${item.time}
+                </small>
+            `;
+
+            historyList.appendChild(historyItem);
+
+        });
+
+    }
+
+</script>
+
+</body></html>

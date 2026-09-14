@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile · AdRewards</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        background: #f4f7fc;
+        padding: 20px;
+    }
+
+    .page {
+        max-width: 600px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+    }
+
+    h1 {
+        color: #1b3a6b;
+    }
+
+    .profile-card {
+        background: #f9fbfe;
+        border: 1px solid #e2e9f2;
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .profile-card h2 {
+        color: #0b1c3a;
+    }
+
+    .points {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #f7b731;
+    }
+
+    button {
+        background: #1b3a6b;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    input {
+        padding: 12px;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        color: #1b3a6b;
+    }
+
+</style>
+
+</head><body><div class="page">
+
+    <h1>My Profile</h1>
+
+    <div class="profile-card">
+
+        <h2 id="userName">Guest User</h2>
+
+        <p>Welcome to your AdRewards profile.</p>
+
+        <p>Your points balance:</p>
+
+        <div class="points" id="profilePoints">
+            0 pts
+        </div>
+
+        <input
+            type="text"
+            id="nameInput"
+            placeholder="Enter your name"
+        >
+
+        <button id="saveNameButton">
+            Save My Name
+        </button>
+
+        <p id="profileMessage"></p>
+
+    </div>
+
+    <a href="index.html">Back to Home</a>
+
+</div>
+
+<script>
+
+    const nameInput = document.getElementById('nameInput');
+
+    const saveNameButton = document.getElementById('saveNameButton');
+
+    const userName = document.getElementById('userName');
+
+    const profileMessage = document.getElementById('profileMessage');
+
+    saveNameButton.addEventListener('click', function() {
+
+        const name = nameInput.value.trim();
+
+        if (name === '') {
+
+            profileMessage.textContent = 'Please enter your name.';
+
+            return;
+
+        }
+
+        userName.textContent = name;
+
+        profileMessage.textContent = 'Your name has been updated!';
+
+    });
+
+</script>
+
+</body></html>

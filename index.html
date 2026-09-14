@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdRewards · watch & earn</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #0b1c3a 0%, #1b3a6b 100%);
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #f7b731;
+        }
+
+        .points-badge {
+            background: #f7b731;
+            color: #0b1c3a;
+            padding: 0.5rem 1.3rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 8px 16px rgba(247, 183, 49, 0.3);
+        }
+
+        .points-badge i {
+            font-size: 1.4rem;
+        }
+
+        /* MAIN LAYOUT */
+        .main-panel {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+            gap: 2rem;
+            background: #ffffff;
+        }
+
+        .ads-section {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .sidebar {
+            flex: 1.2;
+            min-width: 260px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #1b3a6b;
+        }
+
+        .ad-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .ad-card {
+            background: #f9fbfe;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e2e9f2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .ad-card:hover {
+            border-color: #f7b731;
+            background: #fffaf0;
+            transform: scale(1.01);
+        }
+
+        .ad-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 2;
+        }
+
+        .ad-icon {
+            width: 52px;
+            height: 52px;
+            background: #1b3a6b;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f7b731;
+            font-size: 1.7rem;
+        }
+
+        .ad-text h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0b1c3a;
+        }
+
+        .ad-text p {
+            color: #5d6f88;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+
+        .ad-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-watch {
+            background: #1b3a6b;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .btn-watch:hover {
+            background: #0f2a4f;
+        }
+
+        .btn-watch i {
+            font-size: 0.9rem;
+        }
+
+        .reward-tag {
+            background: #e9f0fa;
+            color: #1b3a6b;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        /* SIDEBAR CARDS */
+        .product-panel {
+            background: #f9fbfe;
+            border-radius: 1.5rem;
+            border: 1px solid #e2e9f2;
+            padding: 1.5rem;
+        }
+
+        .product-panel h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0b1c3a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-details {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #dde5ef;
+        }
+
+        .product-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1b3a6b;
+        }
+
+        .product-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #0b1c3a;
+            margin: 0.4rem 0 0.2rem;
+        }
+
+        .delivery-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: #4a5e7a;
+            padding: 0.3rem 0;
+            border-bottom: 1px dashed #d0dbe8;
+        }
+
+        .delivery-row.total {
+            border-bottom: none;
+            font-weight: 700;
+            color: #1b3a6b;
+            font-size: 1.1rem;
+            margin-top: 0.4rem;
+        }
+
+        .place-order-btn {
+            background: #f7b731;
+            border: none;
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0b1c3a;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .place-order-btn:hover {
+            background: #e5a61e;
+        }
+
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* BOT SECTION */
+        .bot-card {
+            background: #0b1c3a;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .bot-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .bot-header i {
+            font-size: 2rem;
+            color: #f7b731;
+        }
+
+        .bot-header h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .bot-message {
+            background: #1b3a6b;
+            padding: 0.9rem 1.2rem;
+            border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #e9f0fa;
+            max-width: 100%;
+        }
+
+        .bot-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .bot-chip {
+            background: #263f66;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .bot-chip:hover {
+            background: #f7b731;
+            color: #0b1c3a;
+        }
+
+        .admin-note {
+            font-size: 0.75rem;
+            color: #8ba0c0;
+            text-align: right;
+            margin-top: 0.4rem;
+            border-top: 1px solid #1f3452;
+            padding-top: 0.7rem;
+        }
+
+        .admin-note i {
+            margin-right: 0.3rem;
+        }
+
+        /* notification toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0b1c3a;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .main-panel {
+                flex-direction: column;
+                padding: 1.2rem;
+            }
+
+            .ad-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .ad-action {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER with points -->
+        <header class="header">
+            <div class="logo">
+                <h1>Ad<span>Rewards</span></h1>
+            </div>
+          <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rewards.html">Rewards</a>
+</nav>
+            <div class="points-badge" id="pointsDisplay">
+                <i class="fas fa-coins"></i>
+                <span id="pointsValue">0</span> pts
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-panel">
+            <!-- LEFT: AD LIST -->
+            <section class="ads-section">
+                <div class="section-title">
+                    <i class="fas fa-play-circle" style="color: #f7b731;"></i> Watch & earn
+                </div>
+                <div class="ad-grid" id="adGrid">
+                    <!-- Ad 1 -->
+                    <div class="ad-card" data-product="Wireless Headphones" data-price="89.99" data-delivery="5.99" data-icon="fa-headphones">
+                        <div class="ad-info">
+                            <div class="ad-icon"><i class="fas fa-headphones"></i></div>
+                            <div class="ad-text">
+                                <h3>Premium Wireless Headphones</h3>
+                                <p>Noise cancelling · 40h battery</p>
+                            </div>
+                        </div>
+                        <div class="ad-action">
+                            <span class="reward-tag"><i class="fas fa-gift"></i> +15 pts</span>
+                            <button class="btn-watch" onclick="watchAd(event, this)"><i class="fas fa-play"></i> Watch</button>
+                        </div>
+                    </div>
+
+                    <!-- Ad 2 -->
+                    <div class="ad-card" data-product="Smart Watch" data-price="129.50" data-delivery="7.99" data-icon="fa-clock">
+                        <div class="ad-info">
+                            <div class="ad-icon"><i class="fas fa-clock"></i></div>
+                            <div class="ad-text">
+                                <h3>Smart Watch Pro</h3>
+                                <p>Fitness tracker · AMOLED</p>
+                            </div>
+                        </div>
+                        <div class="ad-action">
+                            <span class="reward-tag"><i class="fas fa-gift"></i> +20 pts</span>
+                            <button class="btn-watch" onclick="watchAd(event, this)"><i class="fas fa-play"></i> Watch</button>
+                        </div>
+                    </div>
+
+                    <!-- Ad 3 -->
+                    <div class="ad-card" data-product="Portable Speaker" data-price="59.99" data-delivery="4.50" data-icon="fa-volume-up">
+                        <div class="ad-info">
+                            <div class="ad-icon"><i class="fas fa-volume-up"></i></div>
+                            <div class="ad-text">
+                                <h3>Bass+ Portable Speaker</h3>
+                                <p>Waterproof · 24h playtime</p>
+                            </div>
+                        </div>
+                        <div class="ad-action">
+                            <span class="reward-tag"><i class="fas fa-gift"></i> +12 pts</span>
+                            <button class="btn-watch" onclick="watchAd(event, this)"><i class="fas fa-play"></i> Watch</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size: 0.8rem; color: #8ba0c0; margin-top: 1rem;">
+                    <i class="fas fa-info-circle"></i> Click on any advert to see product details & place order.
+                </div>
+            </section>
+
+            <!-- SIDEBAR: PRODUCT + BOT -->
+            <aside class="sidebar">
+                <!-- Product panel (shown after clicking an ad) -->
+                <div class="product-panel" id="productPanel">
+                    <h3><i class="fas fa-box-open" style="color: #f7b731;"></i> Product details</h3>
+                    <div id="productContent">
+                        <div class="product-details" style="text-align: center; color: #6f86a3;">
+                            <i class="fas fa-mouse-pointer" style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5;"></i>
+                            <p>Click on any advert to view product info and delivery cost.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOT quick reply -->
+                <div class="bot-card">
+                    <div class="bot-header">
+                        <i class="fas fa-robot"></i>
+                        <h4>QuickBot</h4>
+                    </div>
+                    <div class="bot-message" id="botMessage">
+                        Hi! I'm here to help. Click an advert to see product details. You can also ask me about delivery or points!
+                    </div>
+                    <div class="bot-actions">
+                        <button class="bot-chip" onclick="botReply('delivery')">📦 Delivery</button>
+                        <button class="bot-chip" onclick="botReply('points')">⭐ Points</button>
+                        <button class="bot-chip" onclick="botReply('order')">🛒 Order</button>
+                    </div>
+                    <div class="admin-note">
+                        <i class="fas fa-lock"></i> Admin controls all prices & delivery
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // --- STATE ---
+        let userPoints = 0;
+        let currentProduct = null; // { name, price, delivery }
+
+        // DOM elements
+        const pointsValue = document.getElementById('pointsValue');
+        const pointsDisplay = document.getElementById('pointsDisplay');
+        const productContent = document.getElementById('productContent');
+        const botMessage = document.getElementById('botMessage');
+        const toastEl = document.getElementById('toast');
+
+        // --- UTILS ---
+        function showToast(message, duration = 2000) {
+            toastEl.textContent = message;
+            toastEl.classList.add('show');
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                toastEl.classList.remove('show');
+            }, duration);
+        }
+
+        // Update points display with a little animation
+        function updatePointsUI() {
+            pointsValue.textContent = userPoints;
+            pointsDisplay.style.transform = 'scale(1.05)';
+            setTimeout(() => pointsDisplay.style.transform = 'scale(1)', 150);
+        }
+
+        // --- WATCH AD (EARN POINTS) ---
+        window.watchAd = function(event, buttonElement) {
+            // stop the click from bubbling to the ad card (so it doesn't open product)
+            event.stopPropagation();
+
+            // find the ad card and its reward
+            const adCard = buttonElement.closest('.ad-card');
+            if (!adCard) return;
+
+            // reward amount (we could store data attribute, but easier to read from span)
+            const rewardSpan = adCard.querySelector('.reward-tag');
+            let reward = 15; // default
+            if (rewardSpan) {
+                const match = rewardSpan.textContent.match(/\d+/);
+                if (match) reward = parseInt(match[0], 10);
+            }
+
+            // Simulate watching (disable button briefly)
+            buttonElement.disabled = true;
+            buttonElement.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Watching...';
+
+            setTimeout(() => {
+                // add points
+                userPoints += reward;
+                updatePointsUI();
+
+                // reset button
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = '<i class="fas fa-play"></i> Watch';
+
+                // show toast
+                showToast(`🎉 +${reward} points earned!`);
+
+                // optional bot message
+                botMessage.textContent = `Great! You just earned ${reward} points. Total: ${userPoints} pts. Want to order something?`;
+            }, 1200);
+        };
+
+        // --- CLICK ON AD CARD (SHOW PRODUCT DETAILS) ---
+        document.querySelectorAll('.ad-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // ignore if the click was on the watch button (handled separately)
+                if (e.target.closest('.btn-watch')) return;
+
+                // extract product info from data attributes
+                const productName = this.dataset.product;
+                const price = parseFloat(this.dataset.price);
+                const delivery = parseFloat(this.dataset.delivery);
+                const iconClass = this.dataset.icon || 'fa-box';
+
+                // set current product
+                currentProduct = { name: productName, price, delivery };
+
+                // render product details
+                const total = (price + delivery).toFixed(2);
+                productContent.innerHTML = `
+                    <div class="product-details">
+                        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
+                            <i class="fas ${iconClass}" style="font-size: 1.4rem; color: #1b3a6b;"></i>
+                            <span class="product-name">${productName}</span>
+                        </div>
+                        <div class="product-price">$${price.toFixed(2)}</div>
+                        <div class="delivery-row">
+                            <span>Delivery fee</span>
+                            <span>$${delivery.toFixed(2)}</span>
+                        </div>
+                        <div class="delivery-row total">
+                            <span>Total</span>
+                            <span>$${total}</span>
+                        </div>
+                        <button class="place-order-btn" onclick="placeOrder()">
+                            <i class="fas fa-cart-plus"></i> Place order
+                        </button>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #7a8faa; margin-top: 0.5rem; text-align: center;">
+                        <i class="fas fa-shield-alt"></i> Admin controls price & delivery
+                    </div>
+                `;
+
+                // bot update
+                botMessage.textContent = `You're viewing ${productName}. Total with delivery: $${total}. Click 'Place order' to confirm.`;
+
+                // scroll to product panel (optional)
+                document.getElementById('productPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+
+        // --- PLACE ORDER (only if product selected) ---
+        window.placeOrder = function() {
+            if (!currentProduct) {
+                showToast('Please select an advert first.');
+                return;
+            }
+
+            // simulate order placement (admin controlled)
+            const total = (currentProduct.price + currentProduct.delivery).toFixed(2);
+
+            // disable the button to prevent double order
+            const orderBtn = document.querySelector('.place-order-btn');
+            if (orderBtn) {
+                orderBtn.disabled = true;
+                orderBtn.innerHTML = '<i class="fas fa-check-circle"></i> Order placed!';
+            }
+
+            showToast(`✅ Order for ${currentProduct.name} placed! Total $${total}`);
+            botMessage.textContent = `Your order for ${currentProduct.name} is confirmed. Total $${total}. Thanks for watching!`;
+
+            // optional: reset after a while (but keep details)
+            setTimeout(() => {
+                if (orderBtn) {
+                    orderBtn.disabled = false;
+                    orderBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Place order';
+                }
+            }, 3000);
+
+            // In a real app, this would send to admin panel.
+        };
+
+        // --- BOT QUICK REPLIES ---
+        window.botReply = function(topic) {
+            let reply = '';
+            switch (topic) {
+                case 'delivery':
+                    reply = 'Delivery fees are set by the admin. Each product has its own delivery cost — click an advert to see exact amount.';
+                    break;
+                case 'points':
+                    reply = `You currently have ${userPoints} points. Watch more ads to earn more! Each ad gives between 10-20 points.`;
+                    break;
+                case 'order':
+                    if (currentProduct) {
+                        reply = `You're interested in ${currentProduct.name}. Total with delivery: $${(currentProduct.price + currentProduct.delivery).toFixed(2)}. Click 'Place order' to proceed.`;
+                    } else {
+                        reply = 'Please click on an advert first to see product details, then you can place an order.';
+                    }
+                    break;
+                default:
+                    reply = 'I can help with delivery, points, or orders. Just tap a button!';
+            }
+            botMessage.textContent = reply;
+        };
+
+        // --- INITIALIZE (admin controlled default points) ---
+        updatePointsUI();
+
+        // Extra: clicking on ad card also shows a subtle highlight, but we already have hover.
+        // Add a small welcome bot message after 1s
+        setTimeout(() => {
+            if (botMessage.textContent.includes('Hi!')) {
+                botMessage.textContent = '👋 Tap an advert to see product details, or ask me about delivery & points!';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
